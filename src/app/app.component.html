@@ -8,13 +8,65 @@
 <h2>Here are some links to help you start: </h2>
 <ul>
   <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a>
+    </h2>
   </li>
   <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a>
+    </h2>
   </li>
   <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a>
+    </h2>
   </li>
 </ul>
+<form #testForm="ngForm">
+  <app-calendar [(ngModel)]="dateSelected" name="date" required></app-calendar>
+  <button type="submit" [disabled]="testForm.invalid">Save easy form</button>
+</form>
 
+<form #testForm2="ngForm">
+  <app-calendar [(ngModel)]="dateSelected2" name="date2" #date2="ngModel" required></app-calendar>
+  <!-- {{ testDebugger(date2) }} -->
+  <div *ngIf="date2.invalid && date2.dirty" class="alert alert-danger">
+    Date is required
+  </div>
+  {{dateSelected2 | date: 'dd/MM/yyyy'}}
+  <button type="submit" [disabled]="testForm2.invalid">Save complex form</button>
+</form>
+
+<form>
+  <app-calendar [formControl]="dateSelected3"></app-calendar>
+  {{dateSelected3.value}}
+  <button type="submit" [disabled]="dateSelected3.invalid">Save easy reactiveform</button>
+</form>
+
+<form>
+  <app-calendar [formControl]="dateSelected3_1"></app-calendar>
+  {{dateSelected3.value}}
+  <button type="submit" [disabled]="dateSelected3_1.invalid">Save semy comple reactiveform</button>
+</form>
+
+<form [formGroup]="testDateGroup">
+  <app-calendar formControlName="dateSelected4"></app-calendar>
+  <button type="submit" [disabled]="testDateGroup.invalid">Save complex reactiveform</button>
+</form>
+
+<form [formGroup]="testDateGroupCustomValidation">
+  <app-calendar formControlName="dateSelected5"></app-calendar>
+  <div *ngIf="testDateGroupCustomValidation.controls.dateSelected5.dirty && testDateGroupCustomValidation.controls.dateSelected5.errors?.noPipeBirtdayMonth"
+    class="alert alert-danger">
+    {{testDebugger(testDateGroupCustomValidation)}}
+    Las huevas guey, no es el mes de mi cumpleaños
+  </div>
+  <button type="submit" [disabled]="testDateGroupCustomValidation.invalid">Save complex reactiveform</button>
+</form>
+
+<form ngNativeValidate>
+  <label for="choose">¿Preferirías un plátano o una cereza?</label>
+  <input id="choose" name="i_like" pattern="plátano|cereza" required>
+  <button>Enviar</button>
+</form>
